@@ -49,7 +49,24 @@
     <p class="output-label">Output:</p>
     <div class="output">
         <?php
-        // TODO: Write your solution here
+        // TODO: Write your solution here#
+        $price1 = 30.00;
+        $price2 = 20.00;
+        $price3 = 10.00;
+
+        $quantity1 = 2;
+        $quantity2 = 3;
+        $quantity3 = 4;
+
+        $subtotal1 = $price1 * $quantity1;
+        $subtotal2 = $price2 * $quantity2;
+        $subtotal3 = $price3 * $quantity3;
+
+        $total = $subtotal1 + $subtotal2 + $subtotal3;
+        $discount = $total * 0.10;
+        $finalPrice = $total - $discount;
+
+        echo "Total: €$finalPrice";
         ?>
     </div>
 
@@ -65,6 +82,13 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        $isStudent = true;
+        $hasDiscount = false;
+        $isPremiumMember = true;
+
+        echo "Is a Student: " . ($isStudent ? "Yes" : "No") . "<br>";
+        echo "Has Discount: " . ($hasDiscount ? "Yes" : "No") . "<br>";
+        echo "Is Premium Member: " . ($isPremiumMember ? "Yes" : "No");
         ?>
     </div>
 
