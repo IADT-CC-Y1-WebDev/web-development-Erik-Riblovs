@@ -27,6 +27,12 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        $Movie = [
+            'Pirates of the Carribean', 'Fast and Furious', 'Demon Hunters', 'Top Gun Maverick', 'The Amazing Spider-Man'
+        ];
+for ($i = 0; $i < count($Movie); $i++) {
+    echo "Movie $i: $Movie[$i]<br>";
+}
         ?>
     </div>
 
@@ -42,6 +48,17 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        $keys = [
+    "Name" => "Erik",
+    "studentId" => "N00254119",
+    "Course" => "DL836",
+    "Grade" => "1st"
+];
+$text = 
+    "{$keys['Name']}<br> {$keys['studentId']}<br>" .
+    " {$keys['Course']}<br> {$keys['Grade']} Grade";
+
+print("<p>$text</p>");
         ?>
     </div>
 

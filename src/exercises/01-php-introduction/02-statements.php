@@ -57,6 +57,16 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        $DOW = rand(1, 7);
+        echo $DOW;
+switch (true) {
+    case ($DOW > 5):
+        echo "<p>Weekend.</p>";
+        break;
+    case ($DOW <= 5):
+        echo "<p>Weekday.</p>";
+        
+    }
         ?>
     </div>
 
@@ -72,6 +82,12 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        $X = 4;
+for ($Y = 1; $Y < 13; $Y++) {
+    $Z = $X * $Y;
+    echo "$X x $Y = $Z<br>";
+}
+
         ?>
     </div>
 
@@ -87,6 +103,12 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        $widgets = 11;
+while ($widgets > 0) {
+    $widgets = $widgets - 1;
+    echo "$widgets<br>";
+}
+echo "<p>Blast Off!</p>";
         ?>
     </div>
 
