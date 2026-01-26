@@ -86,7 +86,7 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
-        $message = "Global"; // global variable
+        $message = "Global";
         
         function testScope()
         {
