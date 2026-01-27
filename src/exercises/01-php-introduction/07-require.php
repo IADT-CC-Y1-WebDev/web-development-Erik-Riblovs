@@ -43,6 +43,12 @@
         // TODO: Write your solution here
         require_once 'lib/utilities.php';
 
+        echo "<p>" . truncate("My name is Erik", 10) . "</p>";
+
+        echo "<p>" . formatPrice(19.99) . "</p>";
+
+        echo "<p>Current Year: " . getCurrentYear() . "</p>";
+
 
 
 
@@ -59,6 +65,12 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once 'lib/validators.php';
+        require_once 'lib/formatters.php';
+
+        echo "<p>Formatted Phone Number: " . formatPhoneNumber("899692077") . "</p>";
+        $email1 = "hello@example.com";
+        echo "<p>$email1 is " . (isValidEmail($email1) ? "valid" : "invalid") . "</p>";
         ?>
     </div>
 
