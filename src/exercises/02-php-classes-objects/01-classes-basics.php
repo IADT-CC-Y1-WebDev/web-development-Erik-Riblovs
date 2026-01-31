@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classes Basics Exercises - PHP Classes &amp; Objects</title>
     <link rel="stylesheet" href="/exercises/css/style.css">
 </head>
+
 <body>
     <div class="back-link">
         <a href="index.php">&larr; Back to Classes &amp; Objects</a>
@@ -31,6 +33,11 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once 'classes/Student.php';
+
+        $student = new Student("Erik", "N00254119");
+        echo "Name: " . $student->name . "<br>";
+        echo "Number: " . $student->number;
         // Step 1: Create classes/Student.php with a Student class
         // Step 2: Require the file
         // require_once __DIR__ . '/classes/Student.php';
@@ -53,7 +60,14 @@
     <p class="output-label">Output:</p>
     <div class="output">
         <?php
-        // TODO: Write your solution here
+        // TODO: Write your solution here      
+        require_once 'classes/Student.php';
+
+        $student1 = new Student("Erik", "N00254119");
+        $student2 = new Student("Ed", "1234567");
+
+        echo "Name: {$student1->name}, Number: {$student1->number}<br>";
+        echo "Name: {$student2->name}, Number: {$student2->number}";
         // require_once __DIR__ . '/classes/Student.php';
         ?>
     </div>
@@ -74,9 +88,15 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once 'classes/Student.php';
+
+        $student = new Student("Erik", "N00254119");
+
+        echo "Student " . $student->getName() . " has number " . $student->getNumber();
         // require_once __DIR__ . '/classes/Student.php';
         ?>
     </div>
 
 </body>
+
 </html>
