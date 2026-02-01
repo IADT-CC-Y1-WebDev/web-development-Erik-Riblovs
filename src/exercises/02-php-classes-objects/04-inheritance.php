@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inheritance Exercises - PHP Classes &amp; Objects</title>
     <link rel="stylesheet" href="/exercises/css/style.css">
 </head>
+
 <body>
     <div class="back-link">
         <a href="index.php">&larr; Back to Classes &amp; Objects</a>
@@ -14,7 +16,8 @@
 
     <h1>Inheritance Exercises</h1>
 
-    <p><strong>Note:</strong> These exercises build on your <code>classes/Student.php</code> file. Make sure your Student class has <code>protected</code> properties so child classes can access them.</p>
+    <p><strong>Note:</strong> These exercises build on your <code>classes/Student.php</code> file. Make sure your
+        Student class has <code>protected</code> properties so child classes can access them.</p>
 
     <!-- Exercise 1 -->
     <h2>Exercise 1: Create an Undergrad Class</h2>
@@ -27,7 +30,9 @@
         <li>Use <code>require_once</code> to include <code>Student.php</code></li>
         <li>Extend the <code>Student</code> class</li>
         <li>Add two protected properties: <code>$course</code> and <code>$year</code></li>
-        <li>Have a constructor that accepts all four values (name, number, course, year) and calls <code>parent::__construct()</code></li>
+        <li>Have a constructor that accepts all four values (name, number, course, year) and calls
+            <code>parent::__construct()</code>
+        </li>
     </ul>
     <p>
         Create an Undergrad student and display their name using the inherited <code>getName()</code> method.
@@ -37,6 +42,11 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once __DIR__ . '/classes/Undergrad.php';
+
+        $u = new Undergrad("Erik", "N00254119", "Computing", 1);
+
+        echo "Name: " . $u->getName();
         // require_once __DIR__ . '/classes/Undergrad.php';
         ?>
     </div>
@@ -58,6 +68,14 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once __DIR__ . '/classes/Undergrad.php';
+
+        $u = new Undergrad("Erik", "N001254119", "Computing", 1);
+
+        echo "Name: " . $u->getName() . "<br>";
+        echo "Number: " . $u->getNumber() . "<br>";
+        echo "Course: " . $u->getCourse() . "<br>";
+        echo "Year: " . $u->getYear();
         // require_once __DIR__ . '/classes/Undergrad.php';
         ?>
     </div>
@@ -75,9 +93,25 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once __DIR__ . '/classes/Undergrad.php';
+
+        $students = [
+            new Undergrad("Erik", "N00254119", "Computing", 1),
+            new Undergrad("Ben", "N00987654", "Business", 1),
+            new Undergrad("Daniel", "N00555123", "Engineering", 3),
+        ];
+
+        foreach ($students as $u) {
+            echo "Name: " . $u->getName()
+                . ", Number: " . $u->getNumber()
+                . ", Course: " . $u->getCourse()
+                . ", Year: " . $u->getYear()
+                . "<br>";
+        }
         // require_once __DIR__ . '/classes/Undergrad.php';
         ?>
     </div>
 
 </body>
+
 </html>

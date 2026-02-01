@@ -6,6 +6,9 @@ class Student
     protected $name;
     protected $number;
 
+    public static $printCreateMessage = true;
+    public static $printDestructMessage = true;
+
     public function __construct($name, $number)
     {
         if (trim($number) === "") {
@@ -14,6 +17,10 @@ class Student
 
         $this->name = $name;
         $this->number = $number;
+
+        if (self::$printCreateMessage) {
+            echo "Creating student: {$this->name}<br>";
+        }
     }
 
     public function getName()
@@ -25,5 +32,18 @@ class Student
     {
         return $this->number;
     }
+
+    public function __toString()
+    {
+        return "Student: {$this->name} ({$this->number})";
+    }
+
+    public function __destruct()
+    {
+        if (self::$printDestructMessage) {
+            echo "Student {$this->name} has left the system<br>";
+        }
+    }
 }
+
 ?>

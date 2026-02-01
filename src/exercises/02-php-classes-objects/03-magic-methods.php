@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magic Methods Exercises - PHP Classes &amp; Objects</title>
     <link rel="stylesheet" href="/exercises/css/style.css">
 </head>
+
 <body>
     <div class="back-link">
         <a href="index.php">&larr; Back to Classes &amp; Objects</a>
@@ -14,7 +16,8 @@
 
     <h1>Magic Methods Exercises</h1>
 
-    <p><strong>Note:</strong> These exercises build on your <code>classes/Student.php</code> file from the previous exercises.</p>
+    <p><strong>Note:</strong> These exercises build on your <code>classes/Student.php</code> file from the previous
+        exercises.</p>
 
     <!-- Exercise 1 -->
     <h2>Exercise 1: Observe the Constructor</h2>
@@ -32,6 +35,12 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once 'classes/Student.php';
+
+        Student::$printCreateMessage = true;  // make sure it's on
+        
+        $s1 = new Student("Alice", "12345");
+        $s2 = new Student("Bob", "12345");
         // require_once __DIR__ . '/classes/Student.php';
         ?>
     </div>
@@ -52,6 +61,12 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once 'classes/Student.php';
+
+        Student::$printCreateMessage = false; // keep output clean
+        
+        $s = new Student("Charlie", "12345");
+        echo $s;
         // require_once __DIR__ . '/classes/Student.php';
         ?>
     </div>
@@ -73,6 +88,19 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once 'classes/Student.php';
+
+        Student::$printCreateMessage = false; // tip mentioned in the worksheet
+        
+        $students = [
+            new Student("Diana", "12345"),
+            new Student("Erik", "N00254119"),
+            new Student("Fiona", "12345"),
+        ];
+
+        foreach ($students as $student) {
+            echo $student . "<br>";
+        }
         // require_once __DIR__ . '/classes/Student.php';
         ?>
     </div>
@@ -94,6 +122,18 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once 'classes/Student.php';
+
+        Student::$printCreateMessage = false;
+        Student::$printDestructMessage = true;
+
+        $s1 = new Student("Grace", "12345");
+        $s2 = new Student("Henry", "12345");
+
+        echo "Setting s1 to null...<br>";
+        $s1 = null; // destructor runs here
+        
+        echo "Script ending...<br>";
         // require_once __DIR__ . '/classes/Student.php';
         // $student1 = new Student("Alice", "S001");
         // $student2 = new Student("Bob", "S002");
@@ -104,4 +144,5 @@
     </div>
 
 </body>
+
 </html>
