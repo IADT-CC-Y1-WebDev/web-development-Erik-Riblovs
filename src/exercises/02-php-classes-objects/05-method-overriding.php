@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Method Overriding Exercises - PHP Classes &amp; Objects</title>
     <link rel="stylesheet" href="/exercises/css/style.css">
 </head>
+
 <body>
     <div class="back-link">
         <a href="index.php">&larr; Back to Classes &amp; Objects</a>
@@ -14,7 +16,9 @@
 
     <h1>Method Overriding Exercises</h1>
 
-    <p><strong>Note:</strong> These exercises build on your <code>classes/Student.php</code> and <code>classes/Undergrad.php</code> files.</p>
+    <p><strong>Note:</strong> These exercises build on your <code>classes/Student.php</code> and
+        <code>classes/Undergrad.php</code> files.
+    </p>
 
     <!-- Exercise 1 -->
     <h2>Exercise 1: Override __toString() in Undergrad</h2>
@@ -32,6 +36,17 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once __DIR__ . '/classes/student.php';
+        require_once __DIR__ . '/classes/Undergrad.php';
+
+        Student::$printCreateMessage = false;
+        Student::$printDestructMessage = false;
+
+        $s = new Student("Alice", "N005432432");
+        $u = new Undergrad("Bob", "N00543535", "Computing", 2);
+
+        echo $s . "<br>";
+        echo $u . "<br>";
         // require_once __DIR__ . '/classes/Undergrad.php';
         ?>
     </div>
@@ -49,7 +64,8 @@
         <li>Add two protected properties: <code>$supervisor</code> and <code>$topic</code></li>
         <li>Have a constructor that accepts all four values and calls <code>parent::__construct()</code></li>
         <li>Have getter methods for supervisor and topic</li>
-        <li>Override <code>__toString()</code> to return "Postgrad: [name] ([number]), Supervisor: [supervisor], Topic: [topic]"</li>
+        <li>Override <code>__toString()</code> to return "Postgrad: [name] ([number]), Supervisor: [supervisor], Topic:
+            [topic]"</li>
     </ul>
     <p>
         Create a Postgrad object and echo it to see the output from your overridden
@@ -60,6 +76,13 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once __DIR__ . '/classes/Postgrad.php';
+
+        Student::$printCreateMessage = false;
+        Student::$printDestructMessage = false;
+
+        $p = new Postgrad("Cara", "N0325435", "Dr. Murphy", "Machine Learning");
+        echo $p;
         // require_once __DIR__ . '/classes/Postgrad.php';
         ?>
     </div>
@@ -77,10 +100,27 @@
     <div class="output">
         <?php
         // TODO: Write your solution here
+        require_once __DIR__ . '/classes/student.php';
+        require_once __DIR__ . '/classes/Undergrad.php';
+        require_once __DIR__ . '/classes/Postgrad.php';
+
+        Student::$printCreateMessage = false;
+        Student::$printDestructMessage = false;
+
+        $people = [
+            new Student("Alice", "N005432432"),
+            new Undergrad("Bob", "N025241432", "Computing", 2),
+            new Postgrad("Cara", "N00254119", "Dr. Murphy", "Machine Learning"),
+        ];
+
+        foreach ($people as $person) {
+            echo $person . "<br>";   // each uses its own __toString()
+        }
         // require_once __DIR__ . '/classes/Undergrad.php';
         // require_once __DIR__ . '/classes/Postgrad.php';
         ?>
     </div>
 
 </body>
+
 </html>

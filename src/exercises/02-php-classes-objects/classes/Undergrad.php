@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/Student.php';
+
+require_once __DIR__ . '/student.php';
 
 class Undergrad extends Student
 {
@@ -21,6 +22,12 @@ class Undergrad extends Student
     public function getYear()
     {
         return $this->year;
+    }
+
+    // ✅ Override __toString()
+    public function __toString()
+    {
+        return "Undergrad: {$this->name} ({$this->number}), {$this->course}, Year {$this->year}";
     }
 }
 ?>
