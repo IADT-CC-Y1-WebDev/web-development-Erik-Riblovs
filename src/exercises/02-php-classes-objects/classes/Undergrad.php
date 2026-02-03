@@ -24,7 +24,6 @@ class Undergrad extends Student
         return $this->year;
     }
 
-    // ✅ Override __toString()
     public function __toString()
     {
         return "Undergrad: {$this->name} ({$this->number}), {$this->course}, Year {$this->year}";
