@@ -83,6 +83,8 @@
         } else {
             echo "This is your first visit!";
         }
+        
+
 
         // =====================================================================
         ?>
@@ -106,6 +108,23 @@
         // ---------------------------------------------------------------------
         // TODO Exercise 2: Write your solution here
         
+        $expiryTime = time() + (60 * 60 * 24 * 30);
+
+        setcookie('visit_count', 1, $expiryTime, '/');
+
+        if (isset($_COOKIE['visit_count'])) {
+            $visitCount = (int) $_COOKIE['visit_count'];
+            echo "You have visited $visitCount times.";
+        } else {
+            echo "This is your first visit!";
+        }
+
+        $visitCount = isset($_COOKIE['visit_count']) ? (int) $_COOKIE['visit_count'] : 0;
+        $visitCount++;  // Increment locally
+        setcookie('visit_count', $visitCount, $expiryTime, '/');  // Save for next time
+        
+        // Use $visitCount (not $_COOKIE['visit_count']) for display
+        
         // =====================================================================
         ?>
     </div>
@@ -123,6 +142,15 @@
         <p><a href="01-visit-counter.php">Refresh Page</a></p>
         <p><a href="01-visit-counter.php?reset=1">Reset Counter</a></p>
     </div>
+    <?php
+    if (isset($_GET['reset'])) {
+        setcookie('visit_count', 0, time() - 3600, '/');
+        setcookie('last_visit', '', time() - 3600, '/');
+        header("Location: 01-visit-counter.php");
+        exit;
+    }
+
+    ?>
 
     <!-- Exercise 4: Bonus - Track Last Visit -->
     <h2>Exercise 4 (Bonus): Track Last Visit Time</h2>
@@ -147,7 +175,15 @@
         // Example output: "Your last visit was: 2024-01-15 10:30:45"
         // ---------------------------------------------------------------------
         // TODO Exercise 4: Write your solution here
-        
+        setcookie('last_visit', date('Y-m-d H:i:s'), $expiryTime, '/');
+
+        if (isset($_COOKIE['last_visit'])) {
+            $lastVisit = $_COOKIE['last_visit'];
+            echo "Your last visit was: $lastVisit";
+        } else {
+            echo "This is your first visit!";
+        }
+
         // =====================================================================
         ?>
     </div>
