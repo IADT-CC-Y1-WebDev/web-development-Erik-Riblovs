@@ -39,12 +39,14 @@
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visit Counter Exercise - PHP Cookies &amp; Sessions</title>
     <link rel="stylesheet" href="/exercises/css/style.css">
 </head>
+
 <body>
     <div class="back-link">
         <a href="index.php">&larr; Back to Cookies &amp; Sessions</a>
@@ -57,11 +59,11 @@
     <h2>Exercise 1: Display Visit Count</h2>
     <p>
         <strong>Task:</strong> Complete the PHP code at the top of this file to:
-        <ol>
-            <li>Read the current visit count from the cookie (or default to 0)</li>
-            <li>Increment the visit count</li>
-            <li>Save the new count back to the cookie</li>
-        </ol>
+    <ol>
+        <li>Read the current visit count from the cookie (or default to 0)</li>
+        <li>Increment the visit count</li>
+        <li>Save the new count back to the cookie</li>
+    </ol>
     </p>
 
     <p class="output-label">Output:</p>
@@ -71,6 +73,16 @@
         // Exercise 1: Display the visit count
         // ---------------------------------------------------------------------
         // TODO Exercise 1: Write your solution here
+        $expiryTime = time() + (60 * 60 * 24 * 30);
+
+        setcookie('visit_count', 1, $expiryTime, '/');
+
+        if (isset($_COOKIE['visit_count'])) {
+            $visitCount = (int) $_COOKIE['visit_count'];
+            echo "You have visited $visitCount times.";
+        } else {
+            echo "This is your first visit!";
+        }
 
         // =====================================================================
         ?>
@@ -120,11 +132,11 @@
     </p>
     <p>
         <strong>Hints:</strong>
-        <ul>
-            <li>Use <code>date('Y-m-d H:i:s')</code> to get the current timestamp</li>
-            <li>Read the existing 'last_visit' cookie BEFORE setting the new one</li>
-            <li>Remember to delete this cookie too when resetting</li>
-        </ul>
+    <ul>
+        <li>Use <code>date('Y-m-d H:i:s')</code> to get the current timestamp</li>
+        <li>Read the existing 'last_visit' cookie BEFORE setting the new one</li>
+        <li>Remember to delete this cookie too when resetting</li>
+    </ul>
     </p>
 
     <p class="output-label">Output:</p>
@@ -141,4 +153,5 @@
     </div>
 
 </body>
+
 </html>
