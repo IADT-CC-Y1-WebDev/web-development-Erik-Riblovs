@@ -11,6 +11,9 @@
 // Hint: Check if session is not already started, then call session_start()
 // -----------------------------------------------------------------------------
 // TODO: Start the session here
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // =============================================================================
 
@@ -24,6 +27,18 @@
 // -----------------------------------------------------------------------------
 // TODO: Handle cookie theme selection here
 
+// Handle theme selection via URL parameter
+if (isset($_GET['cookie_theme'])) {
+    $theme = $_GET['cookie_theme'];
+
+    // Store in cookie for 30 days
+    setcookie('theme', $theme, time() + (60 * 60 * 24 * 30), '/');
+
+    // Redirect to remove the query parameter
+    header('Location: 02-theme-selector.php');
+    exit;
+}
+
 // =============================================================================
 
 // =============================================================================
@@ -36,6 +51,16 @@
 // -----------------------------------------------------------------------------
 // TODO: Handle session theme selection here
 
+if (isset($_GET['session_theme'])) {
+    $theme = $_GET['session_theme'];
+
+    $_SESSION['theme'] = $theme;
+
+    // Redirect to remove the query parameter
+    header('Location: 02-theme-selector.php');
+    exit;
+}
+
 // =============================================================================
 
 // =============================================================================
@@ -44,6 +69,18 @@
 // For $_GET['reset_session']: unset $_SESSION['theme']
 // -----------------------------------------------------------------------------
 // TODO: Handle reset actions here
+
+if (isset($_GET['reset_cookie'])) {
+    $now = time();
+    $expiry = $time - 3600;
+    setcookie('theme', '', $expiry, '/');
+}
+
+
+
+if (isset($_GET['reset_session'])) {
+    unset($_SESSION['theme']);
+}
 
 // =============================================================================
 
@@ -68,6 +105,7 @@ $themes = [
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,19 +118,24 @@ $themes = [
             margin: 0.5rem 0;
             border: 2px solid #ddd;
         }
+
         .theme-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
             margin: 1rem 0;
         }
+
         .theme-box {
             padding: 1rem;
             border: 1px solid #ddd;
             border-radius: 8px;
         }
+
         @media (max-width: 600px) {
-            .theme-grid { grid-template-columns: 1fr; }
+            .theme-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -102,10 +145,11 @@ $themes = [
 // -----------------------------------------------------------------------------
 // TODO: Apply the selected theme to the page by setting inline styles on <body>
 ?>
+
 <body style="">
-<?php
-// =============================================================================
-?>
+    <?php
+    // =============================================================================
+    ?>
     <div class="back-link">
         <a href="index.php">&larr; Back to Cookies &amp; Sessions</a>
         <a href="/examples/03-php-cookies-sessions/02-theme-selector.php">View Example &rarr;</a>
@@ -124,10 +168,10 @@ $themes = [
     <h2>Exercise 2 & 3: Implement Theme Selection</h2>
     <p>
         <strong>Task:</strong> Complete the handlers at the top of the file for:
-        <ul>
-            <li><strong>Cookie theme:</strong> When <code>$_GET['cookie_theme']</code> is set</li>
-            <li><strong>Session theme:</strong> When <code>$_GET['session_theme']</code> is set</li>
-        </ul>
+    <ul>
+        <li><strong>Cookie theme:</strong> When <code>$_GET['cookie_theme']</code> is set</li>
+        <li><strong>Session theme:</strong> When <code>$_GET['session_theme']</code> is set</li>
+    </ul>
     </p>
 
     <div class="theme-grid">
@@ -137,7 +181,8 @@ $themes = [
             <p>Current: <strong><?= htmlspecialchars($cookieTheme) ?></strong></p>
 
             <?php if ($cookieTheme !== 'not set' && isset($themes[$cookieTheme])): ?>
-                <div class="theme-preview" style="background: <?= $themes[$cookieTheme]['bg'] ?>; color: <?= $themes[$cookieTheme]['text'] ?>;">
+                <div class="theme-preview"
+                    style="background: <?= $themes[$cookieTheme]['bg'] ?>; color: <?= $themes[$cookieTheme]['text'] ?>;">
                     Preview: <?= ucfirst($cookieTheme) ?> theme
                 </div>
             <?php endif; ?>
@@ -157,7 +202,8 @@ $themes = [
             <p>Current: <strong><?= htmlspecialchars($sessionTheme) ?></strong></p>
 
             <?php if ($sessionTheme !== 'not set' && isset($themes[$sessionTheme])): ?>
-                <div class="theme-preview" style="background: <?= $themes[$sessionTheme]['bg'] ?>; color: <?= $themes[$sessionTheme]['text'] ?>;">
+                <div class="theme-preview"
+                    style="background: <?= $themes[$sessionTheme]['bg'] ?>; color: <?= $themes[$sessionTheme]['text'] ?>;">
                     Preview: <?= ucfirst($sessionTheme) ?> theme
                 </div>
             <?php endif; ?>
@@ -176,22 +222,22 @@ $themes = [
     <h2>Exercise 4: Implement Reset</h2>
     <p>
         <strong>Task:</strong> Complete the reset handlers at the top of the file:
-        <ul>
-            <li>Reset cookie: Delete the 'theme' cookie by setting expiry in the past</li>
-            <li>Reset session: Use <code>unset()</code> to remove <code>$_SESSION['theme']</code></li>
-        </ul>
+    <ul>
+        <li>Reset cookie: Delete the 'theme' cookie by setting expiry in the past</li>
+        <li>Reset session: Use <code>unset()</code> to remove <code>$_SESSION['theme']</code></li>
+    </ul>
     </p>
 
     <!-- Exercise 5: Understanding the Difference -->
     <h2>Exercise 5: Test the Difference</h2>
     <p>
         <strong>Task:</strong> After completing the exercises above, test the difference:
-        <ol>
-            <li>Set both themes to "dark"</li>
-            <li>Close your browser completely</li>
-            <li>Reopen this page</li>
-            <li>What happened to each theme? Why?</li>
-        </ol>
+    <ol>
+        <li>Set both themes to "dark"</li>
+        <li>Close your browser completely</li>
+        <li>Reopen this page</li>
+        <li>What happened to each theme? Why?</li>
+    </ol>
     </p>
 
     <p class="output-label">Write your answer here:</p>
@@ -202,11 +248,11 @@ $themes = [
         // ---------------------------------------------------------------------
         // TODO: After testing, write a comment explaining the difference
         // between cookie persistence and session persistence.
-        echo "Answer: The cookie-based theme remains 'dark' because cookies " . 
-             "are stored on the client's browser and persist even after closing " . 
-             "the browser. The session-based theme resets to 'not set' because " . 
-             "sessions are temporary and stored on the server; they end when the " . 
-             "browser is closed.";
+        echo "Answer: The cookie-based theme remains 'dark' because cookies " .
+            "are stored on the client's browser and persist even after closing " .
+            "the browser. The session-based theme resets to 'not set' because " .
+            "sessions are temporary and stored on the server; they end when the " .
+            "browser is closed.";
         ?>
     </div>
 
@@ -222,4 +268,5 @@ $themes = [
     </p>
 
 </body>
+
 </html>
