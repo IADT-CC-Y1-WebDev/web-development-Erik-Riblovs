@@ -49,6 +49,11 @@ if (isset($_GET['remove'])) {
 // 2. Redirect back to cart.php
 // -----------------------------------------------------------------------------
 // TODO: Write your code here
+if (isset($_GET['clear'])) {
+    $cart->clear();
+    header('Location: cart.php');
+    exit;
+}
 
 // =============================================================================
 

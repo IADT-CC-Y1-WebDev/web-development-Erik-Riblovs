@@ -30,13 +30,16 @@ try {
     // See: /examples/04-php-forms/step-01-form-submission/
     // =========================================================================
     // TODO: First, just dump the posted data to see what's submitted
-
+    dd($POST);
 
     // =========================================================================
     // STEP 2: Check Request Method
     // See: /examples/04-php-forms/step-02-request-method/
     // =========================================================================
     // TODO: Check that the request method is POST
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Invalid request method.');
+    }
 
 
     // =========================================================================
@@ -93,8 +96,7 @@ try {
     // =========================================================================
     // TODO: On successful registration, set a success flash message and 
     // redirect back to the form
-}
-catch (Exception $e) {
+} catch (Exception $e) {
     // =========================================================================
     // STEP 5: Store Errors and Redirect
     // See: /examples/04-php-forms/step-05-display-errors/
@@ -116,5 +118,5 @@ catch (Exception $e) {
     // =========================================================================
     // TODO: On validation error, you set an error flash message
 
-    
+
 }
