@@ -76,13 +76,13 @@ try {
 
     $year = date("Y");
     $rules = [
-        'title' => 'required|noneempty|min:5|max:255',
-        'author' => 'required|noneempty|min:5|max:255',
-        'publisher_id' => 'required|noneempty|integer',
-        'year' => 'required|noneempty|integer|minvalue:1900|maxvalue',
-        'isbn' => 'required|noneempty|min:13|max:13',
-        'description' => 'required|noneempty|min:10',
-        'format_ids' => 'required|noneempty|array|min:1|max:4',
+        'title' => 'required|nonempty|min:5|max:255',
+        'author' => 'required|nonempty|min:5|max:255',
+        'publisher_id' => 'required|nonempty|integer',
+        'year' => 'required|nonempty|integer|minvalue:1900|maxvalue:'.$year,
+        'isbn' => 'required|nonempty|min:13|max:13',
+        'description' => 'required|nonempty|min:10',
+        'format_ids' => 'required|nonempty|array|min:1|max:4',
     ];
 
     $validator = new Validator($data, $rules);
