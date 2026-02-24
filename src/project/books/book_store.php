@@ -20,21 +20,24 @@ try {
     // Get form data
     $data = [
         'title' => $_POST['title'] ?? null,
-        'release_date' => $_POST['release_date'] ?? null,
-        'genre_id' => $_POST['genre_id'] ?? null,
+        'author' => $_POST['author'] ?? null,
+        'publisher_id' => $_POST['publisher_id'] ?? null,
+        'year' => $_POST['year'] ?? null,
+        'isbn' => $_POST['isbn'] ?? null,
         'description' => $_POST['description'] ?? null,
-        'platform_ids' => $_POST['platform_ids'] ?? [],
-        'image' => $_FILES['image'] ?? null
+        'cover_filename' => $_FILES['cover_filename'] ?? null
     ];
 
     // Define validation rules
+    $year = date("Y");
     $rules = [
         'title' => 'required|notempty|min:1|max:255',
-        'release_date' => 'required|notempty',
-        'genre_id' => 'required|integer',
+        'author' => 'required|notempty',
+        'publisher_id' => 'required|integer',
+        'year' => 'required|nonempty|integer|minvalue:1900|maxvalue:'.$year,
+        'isbn' => 'required|notempty|isbn',
         'description' => 'required|notempty|min:10|max:5000',
-        'platform_ids' => 'required|array|min:1|max:10',
-        'image' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5242880'
+        'cover_filename' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5242880'
     ];
 
     // Validate all data (including file)
@@ -50,15 +53,15 @@ try {
     }
 
     // All validation passed - now process and save
-    // Verify genre exists
-    $genre = Genre::findById($data['genre_id']);
-    if (!$genre) {
-        throw new Exception('Selected genre does not exist.');
+    // Verify publisher exists
+    $publisher = Publisher::findById($data['publisher_id']);
+    if (!$publisher) {
+        throw new Exception('Selected publisher does not exist.');
     }
 
     // Process the uploaded image (validation already completed)
     $uploader = new ImageUpload();
-    $imageFilename = $uploader->process($_FILES['image']);
+    $imageFilename = $uploader->process($_FILES['cover_filename']);
 
     if (!$imageFilename) {
         throw new Exception('Failed to process and save the image.');
@@ -67,19 +70,21 @@ try {
     // Create new book instance
     $book = new Book();
     $book->title = $data['title'];
-    $book->release_date = $data['release_date'];
-    $book->genre_id = $data['genre_id'];
+    $book->author = $data['author'];
+    $book->publisher_id = $data['publisher_id'];
+    $book->year = $data['year'];
+    $book->isbn = $data['isbn'];
     $book->description = $data['description'];
-    $book->image_filename = $imageFilename;
+    $book->cover_filename = $imageFilename;
 
     // Save to database
     $book->save();
-    // Create platform associations
-    if (!empty($data['platform_ids']) && is_array($data['platform_ids'])) {
-        foreach ($data['platform_ids'] as $platformId) {
-            // Verify platform exists before creating relationship
-            if (Platform::findById($platformId)) {
-                BookPlatform::create($book->id, $platformId);
+    // Create format associations
+    if (!empty($data['format_ids']) && is_array($data['format_ids'])) {
+        foreach ($data['format_ids'] as $formatId) {
+            // Verify format exists before creating relationship
+            if (Format::findById($formatId)) {
+                BookFormat::create($book->id, $formatId);
             }
         }
     }
