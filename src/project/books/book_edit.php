@@ -121,15 +121,15 @@ catch (Exception $e) {
                                 <div>
                                     <input type="checkbox" 
                                         id="format_<?= h($format->id) ?>" 
-                                        name="format_ids[]" 
+                                        name="format_id[]" 
                                         value="<?= h($format->id) ?>"
-                                        <?= chosen('format_ids', $format->id, $bookFormatsIds) ? "checked" : "" ?>
+                                        <?= chosen('format_id', $format->id, $bookFormatsIds) ? "checked" : "" ?>
                                     >
                                     <label for="format_<?= h($format->id ?? '') ?>"><?= h($format->name ?? '') ?></label>
                                 </div>
                             <?php } ?>
                         </div>
-                        <p><?= error('format_ids') ?></p>
+                        <p><?= error('format_id') ?></p>
                     </div>
 
                     <div class="input">

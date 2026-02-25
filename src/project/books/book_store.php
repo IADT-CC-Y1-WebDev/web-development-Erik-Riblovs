@@ -26,7 +26,7 @@ try {
         'isbn' => $_POST['isbn'] ?? null,
         'description' => $_POST['description'] ?? null,
         'cover_filename' => $_FILES['cover_filename'] ?? null,
-        'format_ids' => $_POST['format_ids'] ?? []
+        'format_id' => $_POST['format_id'] ?? []
     ];
 
     // Define validation rules
@@ -81,8 +81,8 @@ try {
     // Save to database
     $book->save();
     // Create format associations
-    if (!empty($data['format_ids']) && is_array($data['format_ids'])) {
-        foreach ($data['format_ids'] as $formatId) {
+    if (!empty($data['format_id']) && is_array($data['format_id'])) {
+        foreach ($data['format_id'] as $formatId) {
             // Verify format exists before creating relationship
             if (Format::findById($formatId)) {
                 BookFormat::create($book->id, $formatId);

@@ -27,7 +27,7 @@ try {
         'isbn' => $_POST['isbn'] ?? null,
         'description' => $_POST['description'] ?? null,
         'cover_filename' => $_FILES['cover_filename'] ?? null,
-        'format_ids' => $_POST['format_ids'] ?? []
+        'format_id' => $_POST['format_id'] ?? []
     ];
 
     // Define validation rules
@@ -41,7 +41,7 @@ try {
         'isbn' => 'required|notempty|isbn',
         'description' => 'required|notempty|min:10|max:5000',
         'cover_filename' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5242880',
-        'format_ids' => 'required|array'
+        'format_id' => 'required|array'
     ];
 
     // Validate all data (including file)
@@ -69,7 +69,7 @@ try {
     }
 
     // Verify formats exist
-    foreach ($data['formats_ids'] as $formatId) {
+    foreach ($data['id'] as $formatId) {
         if (!Format::findById($formatId)) {
             throw new Exception('One or more selected formats do not exist.');
         }
@@ -106,8 +106,8 @@ try {
     // Delete existing formats associations
     BookFormat::deleteByBook($book->id);
     // Create new formats associations
-    if (!empty($data['formats_ids']) && is_array($data['formats_ids'])) {
-        foreach ($data['formats_ids'] as $formatId) {
+    if (!empty($data['id']) && is_array($data['id'])) {
+        foreach ($data['id'] as $formatId) {
             BookFormat::create($book->id, $formatId);
         }
     }

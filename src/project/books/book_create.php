@@ -93,13 +93,13 @@ try {
                     <div>
                         <?php foreach ($formats as $format) { ?>
                             <div>
-                                <input type="checkbox" id="format_<?= h($format->id) ?>" name="format_ids[]"
-                                    value="<?= h($format->id) ?>" <?= chosen('format_ids', $format->id) ? "checked" : "" ?>>
+                                <input type="checkbox" id="format_<?= h($format->id) ?>" name="format_id[]"
+                                    value="<?= h($format->id) ?>" <?= chosen('format_id', $format->id) ? "checked" : "" ?>>
                                 <label for="format_<?= h($format->id) ?>"><?= h($format->name) ?></label>
                             </div>
                         <?php } ?>
                     </div>
-                    <p><?= error('formats_ids') ?></p>
+                    <p><?= error('id') ?></p>
                 </div>
                 <div class="input">
                     <label class="special" for="cover_filename">Image (required):</label>
