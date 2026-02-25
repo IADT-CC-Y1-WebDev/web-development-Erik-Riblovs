@@ -19,6 +19,7 @@ try {
 
     // Get form data
     $data = [
+        'id' => $_POST['id'] ?? null,
         'title' => $_POST['title'] ?? null,
         'author' => $_POST['author'] ?? null,
         'publisher_id' => $_POST['publisher_id'] ?? null,
@@ -32,13 +33,15 @@ try {
     // Define validation rules
     $year = date("Y");
     $rules = [
+        'id' => 'required|integer',
         'title' => 'required|notempty|min:1|max:255',
         'author' => 'required|notempty',
         'publisher_id' => 'required|integer',
-        'year' => 'required|nonempty|integer|minvalue:1900|maxvalue:'.$year,
+        'year' => 'required|nonempty|integer|minvalue:1900|maxvalue:' . $year,
         'isbn' => 'required|notempty|isbn',
         'description' => 'required|notempty|min:10|max:5000',
-        'cover_filename' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5242880'
+        'cover_filename' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5242880',
+        'format_ids' => 'required|array'
     ];
 
     // Validate all data (including file)
@@ -53,40 +56,59 @@ try {
         throw new Exception('Validation failed.');
     }
 
-    // All validation passed - now process and save
-    // Verify publisher exists
+    // Find existing book
+    $book = Book::findById($data['id']);
+    if (!$book) {
+        throw new Exception('Book not found.');
+    }
+
+    // Verify publishers exists
     $publisher = Publisher::findById($data['publisher_id']);
     if (!$publisher) {
-        throw new Exception('Selected publisher does not exist.');
+        throw new Exception('Selected publishers does not exist.');
+    }
+
+    // Verify formats exist
+    foreach ($data['formats_ids'] as $formatId) {
+        if (!Format::findById($formatId)) {
+            throw new Exception('One or more selected formats do not exist.');
+        }
     }
 
     // Process the uploaded image (validation already completed)
+    $imageFilename = null;
     $uploader = new ImageUpload();
-    $imageFilename = $uploader->process($_FILES['cover_filename']);
-
-    if (!$imageFilename) {
-        throw new Exception('Failed to process and save the image.');
+    if ($uploader->hasFile('image')) {
+        // Delete old image
+        $uploader->deleteImage($book->cover_filename);
+        // Process new image
+        $imageFilename = $uploader->process($_FILES['image']);
+        // Check for processing errors
+        if (!$imageFilename) {
+            throw new Exception('Failed to process and save the image.');
+        }
     }
 
-    // Create new book instance
-    $book = new Book();
+    // Update the book instance
     $book->title = $data['title'];
     $book->author = $data['author'];
-    $book->publisher_id = $data['publisher_id'];
     $book->year = $data['year'];
     $book->isbn = $data['isbn'];
+    $book->publisher_id = $data['publisher_id'];
     $book->description = $data['description'];
-    $book->cover_filename = $imageFilename;
+    if ($imageFilename) {
+        $book->cover_filename = $imageFilename;
+    }
 
     // Save to database
     $book->save();
-    // Create format associations
-    if (!empty($data['format_ids']) && is_array($data['format_ids'])) {
-        foreach ($data['format_ids'] as $formatId) {
-            // Verify format exists before creating relationship
-            if (Format::findById($formatId)) {
-                BookFormat::create($book->id, $formatId);
-            }
+
+    // Delete existing formats associations
+    BookFormat::deleteByBook($book->id);
+    // Create new formats associations
+    if (!empty($data['formats_ids']) && is_array($data['formats_ids'])) {
+        foreach ($data['formats_ids'] as $formatId) {
+            BookFormat::create($book->id, $formatId);
         }
     }
 
@@ -96,14 +118,13 @@ try {
     clearFormErrors();
 
     // Set success flash message
-    setFlashMessage('success', 'Book stored successfully.');
+    setFlashMessage('success', 'Book updated successfully.');
 
     // Redirect to book details page
     redirect('book_view.php?id=' . $book->id);
-}
-catch (Exception $e) {
+} catch (Exception $e) {
     // Error - clean up uploaded image
-    if (isset($imageFilename) && $imageFilename) {
+    if ($imageFilename) {
         $uploader->deleteImage($imageFilename);
     }
 
@@ -114,5 +135,10 @@ catch (Exception $e) {
     setFormData($data);
     setFormErrors($errors);
 
-    redirect('book_create.php');
+    // Redirect back to edit page if there is an ID; otherwise, go to index page
+    if (isset($data['id']) && $data['id']) {
+        redirect('book_edit.php?id=' . $data['id']);
+    } else {
+        redirect('index.php');
+    }
 }

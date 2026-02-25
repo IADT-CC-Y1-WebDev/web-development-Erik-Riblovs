@@ -54,7 +54,7 @@ try {
                 <div class="input">
                     <label class="special" for="isbn">ISBN:</label>
                     <div>
-                        <input type="text" id="isbn" name="isbn" value="<?= old('isbn') ?>" required>
+                        <input type="text" id="isbn" name="isbn" value="<?= old('isbn' ) ?>" required>
                         <p><?= error('isbn') ?></p>
                     </div>
                 </div>
