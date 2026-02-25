@@ -11,7 +11,7 @@ startSession();
 
 try {
     $publishers = Publisher::findAll();
-    $formats = Format::findAll();
+    $format = Format::findAll();
 } catch (PDOException $e) {
     setFlashMessage('error', 'Error: ' . $e->getMessage());
     redirect('/index.php');
@@ -91,7 +91,7 @@ try {
                 <div class="input">
                     <label class="special">Formats:</label>
                     <div>
-                        <?php foreach ($formats as $format) { ?>
+                        <?php foreach ($format as $format) { ?>
                             <div>
                                 <input type="checkbox" id="format_<?= h($format->id) ?>" name="format_id[]"
                                     value="<?= h($format->id) ?>" <?= chosen('format_id', $format->id) ? "checked" : "" ?>>

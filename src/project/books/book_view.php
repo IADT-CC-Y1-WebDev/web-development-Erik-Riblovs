@@ -14,10 +14,10 @@ try {
     }
 
     $publisher = Publisher::findById($book->publisher_id);
-    $formats = Format::findByBookId($book->id);
+    $format = Format::findByBookId($book->id);
 
     $formatNames = [];
-    foreach ($formats as $format) {
+    foreach ($format as $format) {
         $formatNames[] = htmlspecialchars($format->name ?? '');
     }
 } 

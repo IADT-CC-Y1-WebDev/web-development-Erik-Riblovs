@@ -40,7 +40,7 @@ try {
         'year' => 'required|nonempty|integer|minvalue:1900|maxvalue:' . $year,
         'isbn' => 'required|notempty|isbn',
         'description' => 'required|notempty|min:10|max:5000',
-        'cover_filename' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5242880',
+        'cover_filename' => 'file|image|mimes:jpg,jpeg,png|max_file_size:5242880',
         'format_id' => 'required|array'
     ];
 
@@ -68,21 +68,21 @@ try {
         throw new Exception('Selected publishers does not exist.');
     }
 
-    // Verify formats exist
+    // Verify format exist
     foreach ($data['id'] as $formatId) {
         if (!Format::findById($formatId)) {
-            throw new Exception('One or more selected formats do not exist.');
+            throw new Exception('One or more selected format do not exist.');
         }
     }
 
     // Process the uploaded image (validation already completed)
     $imageFilename = null;
     $uploader = new ImageUpload();
-    if ($uploader->hasFile('image')) {
+    if ($uploader->hasFile('cover_filename')) {
         // Delete old image
         $uploader->deleteImage($book->cover_filename);
         // Process new image
-        $imageFilename = $uploader->process($_FILES['image']);
+        $imageFilename = $uploader->process($_FILES['cover_filename']);
         // Check for processing errors
         if (!$imageFilename) {
             throw new Exception('Failed to process and save the image.');
@@ -103,11 +103,11 @@ try {
     // Save to database
     $book->save();
 
-    // Delete existing formats associations
+    // Delete existing format associations
     BookFormat::deleteByBook($book->id);
-    // Create new formats associations
-    if (!empty($data['id']) && is_array($data['id'])) {
-        foreach ($data['id'] as $formatId) {
+    // Create new format associations
+    if (!empty($data['format_id']) && is_array($data['format_id'])) {
+        foreach ($data['format_id'] as $formatId) {
             BookFormat::create($book->id, $formatId);
         }
     }

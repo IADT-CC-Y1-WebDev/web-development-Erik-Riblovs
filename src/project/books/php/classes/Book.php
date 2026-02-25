@@ -169,11 +169,12 @@ class Book
             throw new Exception($message);
         }
 
-        if ($stmt->rowCount() !== 1) {
-            throw new Exception("Failed to save book.");
-        }
+        
 
         if ($this->id === null) {
+            if ($stmt->rowCount() !== 1) {
+                throw new Exception("Failed to save new book.");
+            }
             $this->id = $this->db->lastInsertId();
         }
     }

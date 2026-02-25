@@ -21,16 +21,16 @@ try {
         throw new Exception("Book not found.");
     }
 
-    // 2. Fetch the current formats for this book
+    // 2. Fetch the current format for this book
     $bookFormats = Format::findByBookId($book->id) ?? [];
     $bookFormatsIds = [];
     foreach ($bookFormats as $format) {
         $bookFormatsIds[] = $format->id;
     }
 
-    // 3. Fetch list of all publishers and formats for the dropdowns/checkboxes
+    // 3. Fetch list of all publishers and format for the dropdowns/checkboxes
     $publishers = Publisher::findAll();
-    $formats = Format::findAll();
+    $format = Format::findAll();
 }
 catch (PDOException $e) {
     setFlashMessage('error', 'Error: ' . $e->getMessage());
@@ -117,7 +117,7 @@ catch (Exception $e) {
                     <div class="input">
                         <label class="special">Formats:</label>
                         <div>
-                            <?php foreach ($formats as $format) { ?>
+                            <?php foreach ($format as $format) { ?>
                                 <div>
                                     <input type="checkbox" 
                                         id="format_<?= h($format->id) ?>" 
