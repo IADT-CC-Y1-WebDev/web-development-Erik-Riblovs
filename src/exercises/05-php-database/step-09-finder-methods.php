@@ -49,7 +49,7 @@ require_once __DIR__ . '/lib/config.php';
         <h3>Test findById(1):</h3>
         <div class="output">
             <?php
-            $book = Book::findById(1);
+            $book = Book::findById(2);
             if ($book === null) {
                 echo "<p class='warning'>findById() not implemented or book not found</p>";
             } else {

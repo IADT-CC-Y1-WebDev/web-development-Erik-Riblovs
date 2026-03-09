@@ -69,7 +69,7 @@ try {
     }
 
     // Verify format exist
-    foreach ($data['id'] as $formatId) {
+    foreach ($data['format_id'] as $formatId) {
         if (!Format::findById($formatId)) {
             throw new Exception('One or more selected format do not exist.');
         }

@@ -1,16 +1,17 @@
 <?php
-require_once 'php/lib/config.php';
-require_once 'php/lib/session.php';
-require_once 'php/lib/forms.php';
-require_once 'php/lib/utils.php';
+require_once './php/lib/config.php';
+require_once './php/lib/session.php';
+require_once './php/lib/forms.php';
+require_once './php/lib/utils.php';
+
+    $data = [];
+    // Initialize errors array
+    $errors = [];
 
 startSession();
 
 try {
     // Initialize form data array
-    $data = [];
-    // Initialize errors array
-    $errors = [];
 
     // Check if request is POST
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -38,7 +39,8 @@ try {
         'year' => 'required|nonempty|integer|minvalue:1900|maxvalue:'.$year,
         'isbn' => 'required|notempty|isbn',
         'description' => 'required|notempty|min:10|max:5000',
-        'cover_filename' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5242880'
+        'cover_filename' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5242880',
+        'format_id' => 'required|nonempty|array|min:1|max:4',
     ];
 
     // Validate all data (including file)
@@ -76,6 +78,7 @@ try {
     $book->year = $data['year'];
     $book->isbn = $data['isbn'];
     $book->description = $data['description'];
+    $book->format_id = $data['format_id'];
     $book->cover_filename = $imageFilename;
 
     // Save to database

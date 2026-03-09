@@ -61,7 +61,8 @@ try {
         'year' => $_POST['year'] ?? null,
         'isbn' => $_POST['isbn'] ?? null,
         'description' => $_POST['description'] ?? null,
-        'format_ids' => $_POST['format_ids'] ?? []
+        'format_ids' => $_POST['format_ids'] ?? [],
+        'cover' => $_FILES['cover'] ?? null
     ];
 
 
@@ -83,6 +84,7 @@ try {
         'isbn' => 'required|nonempty|min:13|max:13',
         'description' => 'required|nonempty|min:10',
         'format_ids' => 'required|nonempty|array|min:1|max:4',
+        'cover' => 'required|file|image|mimes:jpg,jpeg,png|max_file_size:5097152'
     ];
 
     $validator = new Validator($data, $rules);
