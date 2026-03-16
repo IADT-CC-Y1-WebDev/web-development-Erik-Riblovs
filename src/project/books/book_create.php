@@ -102,10 +102,10 @@ try {
                     <p><?= error('format_id') ?></p>
                 </div>
                 <div class="input">
-                    <label class="special" for="cover_filename">Image (required):</label>
+                    <label class="special" for="cover">Image (required):</label>
                     <div>
-                        <input type="file" id="cover_filename" name="cover_filename" accept="image/*" required>
-                        <p><?= error('cover_filename') ?></p>
+                        <input type="file" id="cover" name="cover" accept="image/*" required>
+                        <p><?= error('cover') ?></p>
                     </div>
                 </div>
                 <div class="input">
