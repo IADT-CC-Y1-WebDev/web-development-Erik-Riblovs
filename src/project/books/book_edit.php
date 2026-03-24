@@ -147,7 +147,7 @@ catch (Exception $e) {
 
                     <div class="input">
                         <button class="button" type="submit">Update Book</button>
-                        <div class="button"><a href="index.php">Cancel</a></div>
+                        <div class="button"><a href="book_list.php">Cancel</a></div>
                     </div>
                 </form>
             </div>
