@@ -11,7 +11,7 @@ startSession();
 
 try {
     $publishers = Publisher::findAll();
-    $format = Format::findAll();
+    $formats = Format::findAll();
 } catch (PDOException $e) {
     setFlashMessage('error', 'Error: ' . $e->getMessage());
     redirect('/index.php');
@@ -34,12 +34,13 @@ try {
             <h1>Create Book</h1>
         </div>
         <div class="width-12">
-            <form action="book_store.php" method="POST" enctype="multipart/form-data" novalidate>
+            <form id="book_form" action="book_store.php" method="POST" enctype="multipart/form-data" novalidate>
+                <div id="error_summary_top" class="error-summary" style="display:none" role="alert"></div>
                 <div class="input">
                     <label class="special" for="title">Title:</label>
                     <div>
-                        <input type="text" id="title" name="title" value="<?= old('title') ?>" required>
-                        <p><?= error('title') ?></p>
+                        <input type="text" id="title" name="title" value="<?= old('title') ?>" required >
+                        <p id="title_error"><?= error('title') ?></p>
                     </div>
                 </div>
 
@@ -47,7 +48,7 @@ try {
                     <label class="special" for="author">Author:</label>
                     <div>
                         <input type="text" id="author" name="author" value="<?= old('author') ?>" required>
-                        <p><?= error('author') ?></p>
+                        <p id="author_error"><?= error('author') ?></p>
                     </div>
                 </div>
 
@@ -55,7 +56,7 @@ try {
                     <label class="special" for="isbn">ISBN:</label>
                     <div>
                         <input type="text" id="isbn" name="isbn" value="<?= old('isbn' ) ?>" required>
-                        <p><?= error('isbn') ?></p>
+                        <p id="isbn_error"><?= error('isbn') ?></p>
                     </div>
                 </div>
 
@@ -69,7 +70,7 @@ try {
                                 </option>
                             <?php } ?>
                         </select>
-                        <p><?= error('publisher_id') ?></p>
+                        <p id="publisher_id_error"><?= error('publisher_id') ?></p>
                     </div>
                 </div>
 
@@ -77,7 +78,7 @@ try {
                     <label class="special" for="year">Release Date:</label>
                     <div>
                         <input type="number" id="year" name="year" value="<?= old('year') ?>" required>
-                        <p><?= error('year') ?></p>
+                        <p id="year_error"><?= error('year') ?></p>
                     </div>
                 </div>
 
@@ -85,13 +86,13 @@ try {
                     <label class="special" for="description">Description:</label>
                     <div>
                         <textarea id="description" name="description" required><?= old('description') ?></textarea>
-                        <p><?= error('description') ?></p>
+                        <p id="description_error"><?= error('description') ?></p>
                     </div>
                 </div>
                 <div class="input">
                     <label class="special">Formats:</label>
                     <div>
-                        <?php foreach ($format as $format) { ?>
+                        <?php foreach ($formats as $format) { ?>
                             <div>
                                 <input type="checkbox" id="format_id<?= h($format->id) ?>" name="format_id[]"
                                     value="<?= h($format->id) ?>" <?= chosen('format_id', $format->id) ? "checked" : "" ?>>
@@ -99,22 +100,23 @@ try {
                             </div>
                         <?php } ?>
                     </div>
-                    <p><?= error('format_id') ?></p>
+                    <p id="format_ids_error"><?= error('format_id') ?></p>
                 </div>
                 <div class="input">
                     <label class="special" for="cover">Image (required):</label>
                     <div>
                         <input type="file" id="cover" name="cover" accept="image/*" required>
-                        <p><?= error('cover') ?></p>
+                        <p id="cover_error"><?= error('cover') ?></p>
                     </div>
                 </div>
                 <div class="input">
-                    <button class="button" type="submit">Store Book</button>
+                    <button id="submit_btn" class="button" type="submit">Store Book</button>
                     <div class="button"><a href="book_list.php">Cancel</a></div>
                 </div>
             </form>
         </div>
     </div>
+    <script src="js/create_validation.js"></script>
 </body>
 
 </html>

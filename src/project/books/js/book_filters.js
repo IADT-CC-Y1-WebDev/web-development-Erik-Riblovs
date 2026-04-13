@@ -15,9 +15,7 @@ clearBtn.addEventListener('click', (event) => {
 })
 
 function applyFilters() {
-    // console.log("applying filters");
     let filters = getFilters();
-    //let matches = [];
     for (let i = 0; i != cards.length; i++) {
         let card = cards[i];
         let match = cardMatches(card, filters);
@@ -46,13 +44,13 @@ function sortCards(cards, sortBy) {
 }
 
 function cardMatches(crd, fltrs) {
-    // console.log(crd.dataset.title, fltrs.titleFilter);
     let title = crd.dataset.title.toLowerCase();
-    let genre = crd.dataset.genre;
-    let platform = crd.dataset.platform;
+    let publisher = crd.dataset.publisher;
+    let format = crd.dataset.format;
+
     let matchTitle = fltrs.titleFilter === " " || title.includes(fltrs.titleFilter);
-    let matchGenre = fltrs.genreFilter === " " || genre === fltrs.genreFilter;
-    let matchPlatform = fltrs.platformFilter === " " || platform.includes(fltrs.platformFilter);
+    let matchGenre = fltrs.publisherFilter === " " || publisher === fltrs.publisherFilter;
+    let matchPlatform = fltrs.formatFilter === " " || format.includes(fltrs.formatFilter);
 
     return matchTitle && matchGenre && matchPlatform;
 }
@@ -63,19 +61,19 @@ function clearFilters() {
 
 function getFilters() {
     const titleEl = form.elements['title_filter'];
-    const genreEl = form.elements['genre_filter'];
-    const platformEl = form.elements['platform_filter'];
+    const publisherEl = form.elements['publisher_filter'];
+    const formatEl = form.elements['format_filter'];
     const sortEl = form.elements['sort_by'];
 
     let titleFilter = (titleEl.value || '').trim().toLowerCase();
-    let genreFilter = genreEl.value || '';
-    let platformFilter = platformEl.value || '';
+    let publisherFilter = publisherEl.value || '';
+    let formatFilter = formatEl.value || '';
     let sortBy = sortEl.value || 'title_asc';
 
     return {
         "titleFilter": titleFilter,
-        "genreFilter": genreFilter,
-        "platformFilter": platformFilter,
+        "publisherFilter": publisherFilter,
+        "formatFilter": formatFilter,
         "sortBy": sortBy
     }
 }
