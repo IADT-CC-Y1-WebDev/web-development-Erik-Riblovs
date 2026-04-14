@@ -1,22 +1,22 @@
-// 09-2: Games-style form validation (formHandler pattern)
-
 let submitBtn = document.getElementById('submit_btn');
-let gameForm = document.getElementById('game_form');
+let bookForm = document.getElementById('book_form');
 let errorSummaryTop = document.getElementById('error_summary_top');
 
 let titleInput = document.getElementById('title');
-let releaseDateInput = document.getElementById('release_date');
-let genreIdInput = document.getElementById('genre_id');
+let authorInput = document.getElementById('author');
+let yearInput = document.getElementById('year');
+let publisherIdInput = document.getElementById('publisher_id');
 let descriptionInput = document.getElementById('description');
-let platformIdsInput = document.getElementsByName('platform_ids[]');
-let imageInput = document.getElementById('image');
+let formatIdsInput = document.getElementsByName('format_id[]');
+let coverInput = document.getElementById('cover');
 
 let titleError = document.getElementById('title_error');
-let releaseDateError = document.getElementById('release_date_error');
-let genreIdError = document.getElementById('genre_id_error');
+let authorError = document.getElementById('author_error');
+let releaseDateError = document.getElementById('year_error');
+let publisherIdError = document.getElementById('publisher_id_error');
 let descriptionError = document.getElementById('description_error');
-let platformIdsError = document.getElementById('platform_ids_error');
-let imageError = document.getElementById('image_error');
+let formatIdsError = document.getElementById('format_ids_error');
+let coverError = document.getElementById('cover_error');
 
 let errors = {};
 
@@ -46,11 +46,12 @@ function showErrorSummaryTop() {
 
 function showFieldErrors() {
     titleError.innerHTML = errors.title || '';
-    releaseDateError.innerHTML = errors.release_date || '';
-    genreIdError.innerHTML = errors.genre_id || '';
+    authorError.innerHTML = errors.author || '';
+    releaseDateError.innerHTML = errors.year || '';
+    publisherIdError.innerHTML = errors.publisher_id || '';
     descriptionError.innerHTML = errors.description || '';
-    platformIdsError.innerHTML = errors.platform_ids || '';
-    imageError.innerHTML = errors.image || '';
+    formatIdsError.innerHTML = errors.format_ids || '';
+    coverError.innerHTML = errors.cover || '';
 }
 
 function isRequired(value) {
@@ -65,17 +66,14 @@ function isMaxLength(value, max) {
     return String(value).trim().length <= max;
 }
 
-
-
 function onSubmitForm(evt) {
     evt.preventDefault();
 
     errors = {};
 
-    let titleMin = titleInput.minLength || 3;
-    let titleMax = titleInput.maxLength || 255;
-    let descMin = descriptionInput.minLength || 3;
-
+    let titleMin = 3;
+    let titleMax = 255;
+    let descMin = 3;
 
     if (!isRequired(titleInput.value)) {
         addError('title', 'Title is required.');
@@ -85,16 +83,17 @@ function onSubmitForm(evt) {
         addError('title', 'Title must be no more than ' + titleMax + ' characters long.');
     }
 
-
-    if (!isRequired(releaseDateInput.value)) {
-        addError('release_date', 'Release date is required.');
+    if (!isRequired(authorInput.value)) {
+        addError('author', 'Author is required.');
     }
 
-
-    if (!isRequired(genreIdInput.value)) {
-        addError('genre_id', 'Genre is required.');
+    if (!isRequired(yearInput.value)) {
+        addError('year', 'Year is required.');
     }
 
+    if (!isRequired(publisherIdInput.value)) {
+        addError('publisher_id', 'Publisher is required.');
+    }
 
     if (!isRequired(descriptionInput.value)) {
         addError('description', 'Description is required.');
@@ -102,29 +101,24 @@ function onSubmitForm(evt) {
         addError('description', `Description must be at least ${descMin} characters long.`);
     }
 
-
-    let platformChecked = false;
-    for (let i = 0; i < platformIdsInput.length; i++) {
-        if (platformIdsInput[i].checked) {
-            platformChecked = true;
+    let formatChecked = false;
+    for (let i = 0; i < formatIdsInput.length; i++) {
+        if (formatIdsInput[i].checked) {
+            formatChecked = true;
             break;
         }
     }
 
-    if (!platformChecked) {
-        addError('platform_ids', 'At least one platform must be selected.');
+    if (!formatChecked) {
+        addError('format_ids', 'At least one format must be selected.');
     }
 
-
-    if (imageInput.files.length === 0) {
-        addError('image', 'Image is required.');
-    }
+    // Cover check removed as it is optional for editing
 
     showFieldErrors();
     showErrorSummaryTop();
 
     if (Object.keys(errors).length === 0) {
-        //gameForm.submit();
-        alert('Form submitted successfully!');
+        bookForm.submit();
     }
 }

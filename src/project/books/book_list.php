@@ -81,7 +81,7 @@ try {
             </div>
         <?php } ?>
     </div>
-    <script></script>
+    <script src="js/book_filters.js"></script>
 </body>
 
 </html>
