@@ -31,11 +31,7 @@ function sortCards(cards, sortBy) {
     list.sort((a, b) => {
         let titleA = a.dataset.title.toLowerCase();
         let titleB = b.dataset.title.toLowerCase();
-        let yearA = Number(a.dataset.year);
-        let yearB = Number(b.dataset.year);
 
-        if (sortBy === "year_desc") return yearB - yearA;
-        if (sortBy === "year_asc") return yearA - yearB;
 
         return titleA.localeCompare(titleB);
     });
@@ -44,15 +40,15 @@ function sortCards(cards, sortBy) {
 }
 
 function cardMatches(crd, fltrs) {
-    let title = crd.dataset.title.toLowerCase();
+    let title = crd.dataset.title;
     let publisher = crd.dataset.publisher;
     let format = crd.dataset.format;
 
     let matchTitle = fltrs.titleFilter === " " || title.includes(fltrs.titleFilter);
-    let matchGenre = fltrs.publisherFilter === " " || publisher === fltrs.publisherFilter;
-    let matchPlatform = fltrs.formatFilter === " " || format.includes(fltrs.formatFilter);
+    let matchPublisher = fltrs.publisherFilter === " " || publisher === fltrs.publisherFilter;
+    let matchFormat = fltrs.formatFilter === " " || format.includes(fltrs.formatFilter);
 
-    return matchTitle && matchGenre && matchPlatform;
+    return matchTitle && matchPublisher && matchFormat;
 }
 
 function clearFilters() {
@@ -63,17 +59,14 @@ function getFilters() {
     const titleEl = form.elements['title_filter'];
     const publisherEl = form.elements['publisher_filter'];
     const formatEl = form.elements['format_filter'];
-    const sortEl = form.elements['sort_by'];
 
     let titleFilter = (titleEl.value || '').trim().toLowerCase();
     let publisherFilter = publisherEl.value || '';
     let formatFilter = formatEl.value || '';
-    let sortBy = sortEl.value || 'title_asc';
 
     return {
         "titleFilter": titleFilter,
         "publisherFilter": publisherFilter,
         "formatFilter": formatFilter,
-        "sortBy": sortBy
     }
 }

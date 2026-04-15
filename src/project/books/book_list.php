@@ -4,6 +4,8 @@ require_once 'php/lib/utils.php';
 
 try {
     $books = Book::findAll();
+    $publishers = Publisher::findAll();
+    $formats = Format::findAll();
 } catch (PDOException $e) {
     die("<p>PDO Exception: " . $e->getMessage() . "</p>");
 }
@@ -25,7 +27,7 @@ try {
             </div>
             <?php if (!empty($books)) { ?>
                 <div class="width-12 filters">
-                    <form>
+                    <form id="filters" method="GET" action="book_list.php">
                         <div>
                             <label for="title_filter">Title:</label>
                             <input type="text" id="title_filter" name="title_filter">
@@ -63,7 +65,21 @@ try {
         <?php } else { ?>
             <div class="width-12 cards">
                 <?php foreach ($books as $book) { ?>
-                    <div class="card">
+                    <div class="card"
+                        data-title="<?= htmlspecialchars($book->title) ?>"
+                        data-publisher="<?= htmlspecialchars($book->publisher_id) ?>"
+                        data-format="<?= htmlspecialchars($book->format_id) ?>"
+                        data-year="<?= $book->year ?>">
+                        <div class="top-content">
+                            <h2>Title: <?= h($book->title) ?></h2>
+                            <p>Release Year: <?= h($book->year) ?></p>
+                        </div>
+                        <div class="bottom-content">
+                            <img src="images/<?= h($book->cover_filename) ?>" alt="Image for <?= h($book->title) ?>" />
+                            <div class="actions">
+                        <?= htmlspecialchars($book->format_id) ?>"
+                        data-year="
+                        <?= $book->year ?>">
                         <div class="top-content">
                             <h2>Title: <?= h($book->title) ?></h2>
                             <p>Release Year: <?= h($book->year) ?></p>

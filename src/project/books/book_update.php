@@ -82,9 +82,9 @@ try {
         // Delete old image
         $uploader->deleteImage($book->cover_filename);
         // Process new image
-        $imageFilename = $uploader->process($_FILES['cover_filename']);
+        $coverFilename = $uploader->process($_FILES['cover_filename']);
         // Check for processing errors
-        if (!$imageFilename) {
+        if (!$coverFilename) {
             throw new Exception('Failed to process and save the image.');
         }
     }
@@ -96,8 +96,8 @@ try {
     $book->isbn = $data['isbn'];
     $book->publisher_id = $data['publisher_id'];
     $book->description = $data['description'];
-    if ($imageFilename) {
-        $book->cover_filename = $imageFilename;
+    if ($coverFilename) {
+        $book->cover_filename = $coverFilename;
     }
 
     // Save to database
@@ -124,8 +124,8 @@ try {
     redirect('book_view.php?id=' . $book->id);
 } catch (Exception $e) {
     // Error - clean up uploaded image
-    if ($imageFilename) {
-        $uploader->deleteImage($imageFilename);
+    if ($coverFilename) {
+        $uploader->deleteImage($coverFilename);
     }
 
     // Set error flash message
