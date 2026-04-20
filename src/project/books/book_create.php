@@ -111,7 +111,7 @@ try {
                 </div>
                 <div class="input">
                     <button id="submit_btn" class="button" type="submit">Store Book</button>
-                    <div class="button"><a href="book_list.php">Cancel</a></div>
+                    <a href="book_list.php"><div class="button">Cancel</div></a>
                 </div>
             </form>
         </div>

@@ -64,22 +64,20 @@ try {
             <p>No books found.</p>
         <?php } else { ?>
             <div class="width-12 cards">
-                <?php foreach ($books as $book) { ?>
+                <?php foreach ($books as $book) { 
+                    $formats = Format::findByBookId($book->id);
+                    $formatIds = [];
+
+                    foreach ($formats as $format) {
+                        $formatIds[] = $format->id;
+                    }
+
+                    ?>
                     <div class="card"
-                        data-title="<?= htmlspecialchars($book->title) ?>"
-                        data-publisher="<?= htmlspecialchars($book->publisher_id) ?>"
-                        data-format="<?= htmlspecialchars($book->format_id) ?>"
-                        data-year="<?= $book->year ?>">
-                        <div class="top-content">
-                            <h2>Title: <?= h($book->title) ?></h2>
-                            <p>Release Year: <?= h($book->year) ?></p>
-                        </div>
-                        <div class="bottom-content">
-                            <img src="images/<?= h($book->cover_filename) ?>" alt="Image for <?= h($book->title) ?>" />
-                            <div class="actions">
-                        <?= htmlspecialchars($book->format_id) ?>"
-                        data-year="
-                        <?= $book->year ?>">
+                        data-title="<?= h($book->title) ?>"
+                        data-publisher="<?= h($book->publisher_id) ?>"
+                        data-formats="<?= implode(', ', $formatIds) ?>"
+                        data-year="<?= h($book->year) ?>">
                         <div class="top-content">
                             <h2>Title: <?= h($book->title) ?></h2>
                             <p>Release Year: <?= h($book->year) ?></p>

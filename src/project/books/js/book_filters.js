@@ -16,16 +16,17 @@ clearBtn.addEventListener('click', (event) => {
 
 function applyFilters() {
     let filters = getFilters();
+
     for (let i = 0; i != cards.length; i++) {
         let card = cards[i];
         let match = cardMatches(card, filters);
         card.classList.toggle('hidden', !match);
     }
-    let cardsArray = Array.from(cards);
-    const sorted = sortCards(cardsArray, filters.sortBy);
+    // let cardsArray = Array.from(cards);
+    // const sorted = sortCards(cardsArray, filters.sortBy);
 }
 
-function sortCards(cards, sortBy) {
+function sortCards(cards) {
     const list = cards.slice();
 
     list.sort((a, b) => {
@@ -40,19 +41,20 @@ function sortCards(cards, sortBy) {
 }
 
 function cardMatches(crd, fltrs) {
-    let title = crd.dataset.title;
+    let title = crd.dataset.title.toLowerCase();
     let publisher = crd.dataset.publisher;
-    let format = crd.dataset.format;
+    let formats = crd.dataset.formats;
 
-    let matchTitle = fltrs.titleFilter === " " || title.includes(fltrs.titleFilter);
-    let matchPublisher = fltrs.publisherFilter === " " || publisher === fltrs.publisherFilter;
-    let matchFormat = fltrs.formatFilter === " " || format.includes(fltrs.formatFilter);
+    let matchTitle = fltrs.titleFilter === "" || title.includes(fltrs.titleFilter);
+    let matchPublisher = fltrs.publisherFilter === "" || publisher === fltrs.publisherFilter;
+    let matchFormat = fltrs.formatFilter === "" || formats.includes(fltrs.formatFilter);
 
     return matchTitle && matchPublisher && matchFormat;
 }
 
 function clearFilters() {
-    console.log("clearing filters");
+    form.reset();
+    cards.forEach(card => card.classList.remove('hidden'));
 }
 
 function getFilters() {
